@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 import theme from "utils/theme";
-import { Navigation, Wrapper, LoadingIndicator } from "components";
+import { Navigation, Wrapper, LoadingIndicator, Button } from "components";
 import { useTranslation } from "react-i18next";
 import GlobalStyles from "./index.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -20,8 +20,18 @@ function App() {
           ]}
           RightElement={
             <div>
-              <button onClick={() => i18n.changeLanguage("PL")}>PL</button>
-              <button onClick={() => i18n.changeLanguage("EN")}>EN</button>
+              <Button
+                variant="regular"
+                onClick={() => i18n.changeLanguage("PL")}
+              >
+                PL{" "}
+              </Button>
+              <Button
+                variant="regular"
+                onClick={() => i18n.changeLanguage("EN")}
+              >
+                EN{" "}
+              </Button>
             </div>
           }
         />
