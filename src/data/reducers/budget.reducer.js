@@ -3,6 +3,11 @@ import {
     BUDGET_GET_REQUEST,
     BUDGET_GET_SUCCESS,
     BUDGET_GET_FAILURE,
+
+    BUDGETED_CATEGORIES_GET_REQUEST,
+    BUDGETED_CATEGORIES_GET_SUCCESS,
+    BUDGETED_CATEGORIES_GET_FAILURE,
+
     LOADING_STATES,
 } from 'data/constants'
 
@@ -31,7 +36,7 @@ function budget(state = initialState, action) {
 
 
     switch (action.type) {
-        case BUDGET_GET_REQUEST:
+        case BUDGETED_CATEGORIES_GET_REQUEST:
             return {
                 ...state,
                 loadingState: {
@@ -39,22 +44,45 @@ function budget(state = initialState, action) {
                     [action.type]: LOADING_STATES.LOADING,
                 }
             }
-            case BUDGET_GET_SUCCESS:
+            case BUDGETED_CATEGORIES_GET_SUCCESS:
                 delete newLoadingState.BUDGET_GET_REQUEST;
                 return {
                     ...state,
-                    budget: action.payload,
+                    budgetedCategories: action.payload,
                         loadingState: newLoadingState,
                 }
-                case BUDGET_GET_FAILURE:
-                    delete newLoadingState.BUDGET_GET_REQUEST;
+                case BUDGETED_CATEGORIES_GET_FAILURE:
+                    delete newLoadingState.BUDGETED_CATEGORIES_GET_REQUEST;
                     return {
                         ...state,
-                        budget: {},
+                        budgetedCategories: {},
                             loadingState: newLoadingState,
                     }
-                    default:
-                        return state;
+
+                    case BUDGET_GET_REQUEST:
+                        return {
+                            ...state,
+                            loadingState: {
+                                ...state.loadingState,
+                                [action.type]: LOADING_STATES.LOADING,
+                            }
+                        }
+                        case BUDGET_GET_SUCCESS:
+                            delete newLoadingState.BUDGET_GET_REQUEST;
+                            return {
+                                ...state,
+                                budget: action.payload,
+                                    loadingState: newLoadingState,
+                            }
+                            case BUDGET_GET_FAILURE:
+                                delete newLoadingState.BUDGET_GET_REQUEST;
+                                return {
+                                    ...state,
+                                    budgetedCategories: [],
+                                        loadingState: newLoadingState,
+                                }
+                                default:
+                                    return state;
     }
 }
 
