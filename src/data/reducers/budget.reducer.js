@@ -12,10 +12,7 @@ import {
 } from 'data/constants'
 
 const initialState = {
-    loadingState: {
-        //stan akcji, które są w trakcie
-        BUDGET_GET_REQUEST: true,
-    },
+    loadingState: null,
     budget: {},
     budgetedCategories: [],
 
@@ -29,7 +26,7 @@ const initialState = {
 // }
 
 
-function budget(state = initialState, action) {
+export default function budget(state = initialState, action) {
     const newLoadingState = {
         ...state.loadingState
     };
@@ -45,7 +42,7 @@ function budget(state = initialState, action) {
                 }
             }
             case BUDGETED_CATEGORIES_GET_SUCCESS:
-                delete newLoadingState.BUDGET_GET_REQUEST;
+                delete newLoadingState.BUDGETED_CATEGORIES_GET_REQUEST;
                 return {
                     ...state,
                     budgetedCategories: action.payload,
@@ -55,7 +52,7 @@ function budget(state = initialState, action) {
                     delete newLoadingState.BUDGETED_CATEGORIES_GET_REQUEST;
                     return {
                         ...state,
-                        budgetedCategories: {},
+                        budgetedCategories: [],
                             loadingState: newLoadingState,
                     }
 
@@ -78,12 +75,10 @@ function budget(state = initialState, action) {
                                 delete newLoadingState.BUDGET_GET_REQUEST;
                                 return {
                                     ...state,
-                                    budgetedCategories: [],
+                                    budgeted: {},
                                         loadingState: newLoadingState,
                                 }
                                 default:
                                     return state;
     }
 }
-
-export default budget;

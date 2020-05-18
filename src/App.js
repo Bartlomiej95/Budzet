@@ -3,18 +3,11 @@ import { ThemeProvider } from "styled-components";
 import theme from "utils/theme";
 import { Navigation, Wrapper, LoadingIndicator, Button } from "components";
 import { useTranslation } from "react-i18next";
-import { connect } from "react-redux";
 import GlobalStyles from "./index.css";
-import { fetchBudget, fetchBudgetedCategories } from "./data/actions/budget.actions";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Budget from "./pages/Budget";
 
-function App({ budget, fetchBudget, fetchBudgetedCategories }) {
-  // fetchBudget(1);
-  useEffect(() => {
-    fetchBudget(1);
-    fetchBudgetedCategories(1);
-  }, [fetchBudget, fetchBudgetedCategories]);
-  console.log(budget);
+function App({ budget }) {
   const { i18n } = useTranslation();
   return (
     <React.Fragment>
@@ -48,27 +41,21 @@ function App({ budget, fetchBudget, fetchBudgetedCategories }) {
             <Route exact path="/">
               Homepage
             </Route>
-            <Route path="/budget">Budget</Route>
+            <Route path="/budget">
+              <Budget />
+            </Route>
           </Switch>
         </Wrapper>
       </Router>
     </React.Fragment>
   );
 }
-const ConnectedApp = connect(
-  (state) => {
-    return {
-      budget: state.budget.budget,
-    };
-  },
-  { fetchBudget, fetchBudgetedCategories }
-)(App);
 
 function RootApp() {
   return (
     <ThemeProvider theme={theme}>
       <React.Suspense fallback={<LoadingIndicator />}>
-        <ConnectedApp />
+        <App />
       </React.Suspense>
     </ThemeProvider>
   );
